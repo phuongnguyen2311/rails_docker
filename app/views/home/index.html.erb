@@ -1,3 +1,14 @@
 Home Page:
 
 <%= @message %>
+<% @posts.each do |post| %>
+  <h1> <%= post.title %> </h1>
+  <h2> <%= post.author.name %> </h2>
+  <p> <%= post.body %>
+  <br>
+  <p> 
+    <%= link_to "Like", "/increment_async?post_id=#{post.id}", method: :get %>
+    Likes:
+    <%= post.likes_count %> 
+  </p>
+<% end %>

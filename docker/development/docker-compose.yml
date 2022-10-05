@@ -19,6 +19,22 @@ services:
       - PGDATABASE=postgres
       - PGPASSWORD=postgres_password
       - PGPORT=5432
+      - RAILS_ENV=development
+      - REDIS_URL=redis://redis:6379/12
     depends_on:
       - db
+  redis:
+    image: redis
+    volumes:
+      - ../../tmp/db:/var/lib/redis/data
+  sidekiq:
+    build: ../../
+    command: 'bundle exec sidekiq'
+    volumes:
+      - ../../:/myapp
+    environment:
+      RAILS_ENV: "development"
+      REDIS_URL: "redis://redis:6379/12"
+    depends_on:
+      - redis
     
